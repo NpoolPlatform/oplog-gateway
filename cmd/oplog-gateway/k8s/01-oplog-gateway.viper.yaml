@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oplog-gateway-config
+  namespace: kube-system
+data:
+  service-conf: |
+    config:
+      hostname: "oplog-gateway.npool.top"
+      http_port: 50790
+      grpc_port: 50791
+      healthz_port: 50792
+      prometheus_port: 50793
+      appid: "89089012783789789719823798127398"
+      serviceid: "4673f450-ecc0-11ed-afca-cfdb099ce209"
+      logdir: "./"
+      apolloAccessKey: "0147fb70b815403790e8634b899fac07"
