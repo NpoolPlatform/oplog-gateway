@@ -34,7 +34,7 @@ func (h *Handler) CreateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 	}
 
 	_curVal, err := json.Marshal(valAndErr)
-	if err == nil {
+	if err != nil {
 		return nil, err
 	}
 	curValStr = string(_curVal)
