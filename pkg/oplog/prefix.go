@@ -1,14 +1,13 @@
 package oplog
 
 import (
-	"context"
 	"fmt"
 	"path/filepath"
 	"strings"
 )
 
-func (h *Handler) GetPathPrefix(ctx context.Context) (string, error) {
-	strs := strings.Split(h.Path, "/")
+func getPathPrefix(path string) (string, error) {
+	strs := strings.Split(path, "/")
 	if len(strs) < 3 {
 		return "", fmt.Errorf("invalid path")
 	}

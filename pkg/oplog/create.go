@@ -11,7 +11,7 @@ import (
 )
 
 func (h *Handler) CreateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
-	prefix, err := h.GetPathPrefix(ctx)
+	prefix, err := getPathPrefix(h.Path)
 	if err != nil {
 		return nil, err
 	}

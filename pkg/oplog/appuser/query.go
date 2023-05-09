@@ -9,6 +9,7 @@ import (
 	"strings"
 	// appmwcli "github.com/NpoolPlatform/appuser-middleware/pkg/client/app"
 	// npool "github.com/NpoolPlatform/message/npool/appuser/gw/v1/app"
+	basetypes "github.com/NpoolPlatform/message/npool/basetypes/v1"
 )
 
 func GetEntity(ctx context.Context, path, args string) (interface{}, error) {
@@ -34,4 +35,8 @@ func GetEntity(ctx context.Context, path, args string) (interface{}, error) {
 	}
 
 	return nil, nil
+}
+
+func HumanReadable(path, args, cur, new string, result basetypes.Result, reason string) (string, error) {
+	return "", nil
 }
