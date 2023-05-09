@@ -1,10 +1,13 @@
+//nolint
 package oplog
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
+	// appmwcli "github.com/NpoolPlatform/appuser-middleware/pkg/client/app"
 	basetypes "github.com/NpoolPlatform/message/npool/basetypes/v1"
 	constant "github.com/NpoolPlatform/oplog-middleware/pkg/const"
 
@@ -46,9 +49,15 @@ func WithEntID(ctx context.Context, id string) func(context.Context, *Handler) e
 
 func WithAppID(ctx context.Context, id string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
-		if _, err := uuid.Parse(id); err != nil {
-			return err
-		}
+		/*
+			exist, err := appmwcli.ExistApp(ctx, id)
+			if err != nil {
+				return err
+			}
+			if !exist {
+				return fmt.Errorf("invalid app_id")
+			}
+		*/
 		h.AppID = id
 		return nil
 	}
@@ -69,6 +78,9 @@ func WithUserID(ctx context.Context, id *string) func(context.Context, *Handler)
 
 func WithPath(ctx context.Context, path string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if !strings.HasPrefix(path, "/api/") {
+			return fmt.Errorf("invalid path %v", path)
+		}
 		h.Path = path
 		return nil
 	}

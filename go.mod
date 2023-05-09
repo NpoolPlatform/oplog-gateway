@@ -8,6 +8,7 @@ require (
 	github.com/NpoolPlatform/message v0.0.0-20230507083818-d182f98a2dbf
 	github.com/NpoolPlatform/oplog-middleware v0.0.0-20230507082332-24b00ab8f417
 	github.com/go-resty/resty/v2 v2.7.0
+	github.com/google/uuid v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3
 	github.com/stretchr/testify v1.8.2
 	github.com/urfave/cli/v2 v2.16.3
@@ -42,7 +43,6 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/hashicorp/consul/api v1.12.0 // indirect
