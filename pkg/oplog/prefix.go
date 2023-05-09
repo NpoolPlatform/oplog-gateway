@@ -7,8 +7,9 @@ import (
 )
 
 func getPathPrefix(path string) (string, error) {
+	const leastPathUnits = 3
 	strs := strings.Split(path, "/")
-	if len(strs) < 3 { //nolint
+	if len(strs) < leastPathUnits {
 		return "", fmt.Errorf("invalid path")
 	}
 	if !strings.HasPrefix(strs[2], "v") {
