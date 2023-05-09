@@ -21,6 +21,7 @@ type Handler struct {
 	Path       string
 	Method     basetypes.HTTPMethod
 	Arguments  string
+	NewValue   *string
 	Result     *basetypes.Result
 	FailReason *string
 	Offset     int32
@@ -113,6 +114,17 @@ func WithArguments(ctx context.Context, args string) func(context.Context, *Hand
 			return err
 		}
 		h.Arguments = args
+		return nil
+	}
+}
+
+func WithNewValue(ctx context.Context, value *string) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		var _args map[string]interface{}
+		if err := json.Unmarshal([]byte(*value), &_args); err != nil {
+			return err
+		}
+		h.NewValue = value
 		return nil
 	}
 }

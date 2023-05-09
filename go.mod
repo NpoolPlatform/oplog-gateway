@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/NpoolPlatform/basal-middleware v0.0.0-20230421085555-165e4722a9ba
 	github.com/NpoolPlatform/go-service-framework v0.0.0-20230507024845-c15be37b4e7a
-	github.com/NpoolPlatform/message v0.0.0-20230509074506-646879de9a5e
+	github.com/NpoolPlatform/message v0.0.0-20230509081756-382085f71c35
 	github.com/NpoolPlatform/oplog-middleware v0.0.0-20230509075111-fc24617c8d5f
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/google/uuid v1.3.0
