@@ -8,6 +8,9 @@ import (
 
 func getPathPrefix(path string) (string, error) {
 	const leastPathUnits = 3
+	if strings.HasPrefix(path, "/") {
+		path = path[1:]
+	}
 	strs := strings.Split(path, "/")
 	if len(strs) < leastPathUnits {
 		return "", fmt.Errorf("invalid path")
