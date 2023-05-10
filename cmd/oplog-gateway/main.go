@@ -5,6 +5,7 @@ import (
 	"os"
 
 	servicename "github.com/NpoolPlatform/oplog-gateway/pkg/servicename"
+	mwservicename "github.com/NpoolPlatform/oplog-middleware/pkg/servicename"
 
 	"github.com/NpoolPlatform/go-service-framework/pkg/app"
 	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
@@ -34,6 +35,7 @@ func main() {
 		mysqlconst.MysqlServiceName,
 		rabbitmqconst.RabbitMQServiceName,
 		redisconst.RedisServiceName,
+		mwservicename.ServiceDomain,
 	)
 	if err != nil {
 		logger.Sugar().Errorf("fail to create %v: %v", servicename.ServiceName, err)
