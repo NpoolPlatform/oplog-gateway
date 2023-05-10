@@ -123,6 +123,9 @@ func WithArguments(ctx context.Context, args string) func(context.Context, *Hand
 
 func WithNewValue(ctx context.Context, value *string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if value == nil {
+			return nil
+		}
 		var _args map[string]interface{}
 		if err := json.Unmarshal([]byte(*value), &_args); err != nil {
 			return err
