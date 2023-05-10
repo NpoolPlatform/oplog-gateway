@@ -15,17 +15,20 @@ import (
 )
 
 type Handler struct {
-	EntID      *string
-	AppID      string
-	UserID     *string
-	Path       string
-	Method     basetypes.HTTPMethod
-	Arguments  string
-	NewValue   *string
-	Result     *basetypes.Result
-	FailReason *string
-	Offset     int32
-	Limit      int32
+	EntID       *string
+	AppID       string
+	UserID      *string
+	Path        string
+	Method      basetypes.HTTPMethod
+	Arguments   string
+	NewValue    *string
+	Result      *basetypes.Result
+	FailReason  *string
+	StatusCode  *int32
+	ReqHeaders  *string
+	RespHeaders *string
+	Offset      int32
+	Limit       int32
 }
 
 func NewHandler(ctx context.Context, options ...func(context.Context, *Handler) error) (*Handler, error) {
@@ -148,6 +151,27 @@ func WithResult(ctx context.Context, result *basetypes.Result) func(context.Cont
 func WithFailReason(ctx context.Context, reason *string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		h.FailReason = reason
+		return nil
+	}
+}
+
+func WithStatusCode(ctx context.Context, statusCode *int32) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		h.StatusCode = statusCode
+		return nil
+	}
+}
+
+func WithReqHeaders(ctx context.Context, headers *string) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		h.ReqHeaders = headers
+		return nil
+	}
+}
+
+func WithRespHeaders(ctx context.Context, headers *string) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		h.RespHeaders = headers
 		return nil
 	}
 }

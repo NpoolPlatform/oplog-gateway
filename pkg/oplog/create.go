@@ -40,11 +40,12 @@ func (h *Handler) CreateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 	curValStr = string(_curVal)
 
 	return oplogmwcli.CreateOpLog(ctx, &oplogmwpb.OpLogReq{
-		AppID:     &h.AppID,
-		UserID:    h.UserID,
-		Path:      &h.Path,
-		Method:    &h.Method,
-		Arguments: &h.Arguments,
-		CurValue:  &curValStr,
+		AppID:      &h.AppID,
+		UserID:     h.UserID,
+		Path:       &h.Path,
+		Method:     &h.Method,
+		Arguments:  &h.Arguments,
+		CurValue:   &curValStr,
+		ReqHeaders: h.ReqHeaders,
 	})
 }
