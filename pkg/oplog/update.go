@@ -9,12 +9,13 @@ import (
 
 func (h *Handler) UpdateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 	return oplogmwcli.UpdateOpLog(ctx, &oplogmwpb.OpLogReq{
-		EntID:       h.EntID,
-		NewValue:    h.NewValue,
-		Result:      h.Result,
-		FailReason:  h.FailReason,
-		StatusCode:  h.StatusCode,
-		ReqHeaders:  h.ReqHeaders,
-		RespHeaders: h.RespHeaders,
+		EntID:            h.EntID,
+		NewValue:         h.NewValue,
+		Result:           h.Result,
+		FailReason:       h.FailReason,
+		StatusCode:       h.StatusCode,
+		ReqHeaders:       h.ReqHeaders,
+		RespHeaders:      h.RespHeaders,
+		ElapsedMillisecs: h.ElapsedMillisecs,
 	})
 }

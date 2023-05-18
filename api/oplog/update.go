@@ -21,6 +21,7 @@ func (s *Server) UpdateOpLog(ctx context.Context, in *npool.UpdateOpLogRequest) 
 		oplog1.WithStatusCode(ctx, in.StatusCode),
 		oplog1.WithReqHeaders(ctx, in.ReqHeaders),
 		oplog1.WithRespHeaders(ctx, in.RespHeaders),
+		oplog1.WithElapsedMillisecs(ctx, in.GetElapsedMillisecs()),
 	)
 	if err != nil {
 		logger.Sugar().Errorw(

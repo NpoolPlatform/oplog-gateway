@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"strings"
 
-	// appmwcli "github.com/NpoolPlatform/appuser-middleware/pkg/client/app"
 	basetypes "github.com/NpoolPlatform/message/npool/basetypes/v1"
 	constant "github.com/NpoolPlatform/oplog-middleware/pkg/const"
 
@@ -15,20 +14,21 @@ import (
 )
 
 type Handler struct {
-	EntID       *string
-	AppID       string
-	UserID      *string
-	Path        string
-	Method      basetypes.HTTPMethod
-	Arguments   string
-	NewValue    *string
-	Result      *basetypes.Result
-	FailReason  *string
-	StatusCode  *int32
-	ReqHeaders  *string
-	RespHeaders *string
-	Offset      int32
-	Limit       int32
+	EntID            *string
+	AppID            string
+	UserID           *string
+	Path             string
+	Method           basetypes.HTTPMethod
+	Arguments        string
+	NewValue         *string
+	Result           *basetypes.Result
+	FailReason       *string
+	StatusCode       *int32
+	ReqHeaders       *string
+	RespHeaders      *string
+	ElapsedMillisecs *uint32
+	Offset           int32
+	Limit            int32
 }
 
 func NewHandler(ctx context.Context, options ...func(context.Context, *Handler) error) (*Handler, error) {
@@ -53,15 +53,6 @@ func WithEntID(ctx context.Context, id string) func(context.Context, *Handler) e
 
 func WithAppID(ctx context.Context, id string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
-		/*
-			exist, err := appmwcli.ExistApp(ctx, id)
-			if err != nil {
-				return err
-			}
-			if !exist {
-				return fmt.Errorf("invalid app_id")
-			}
-		*/
 		h.AppID = id
 		return nil
 	}
@@ -175,6 +166,13 @@ func WithReqHeaders(ctx context.Context, headers *string) func(context.Context, 
 func WithRespHeaders(ctx context.Context, headers *string) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		h.RespHeaders = headers
+		return nil
+	}
+}
+
+func WithElapsedMillisecs(ctx context.Context, secs uint32) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		h.ElapsedMillisecs = &secs
 		return nil
 	}
 }
