@@ -276,7 +276,7 @@ pipeline {
           docker images | grep oplog-gateway | grep $tag
           rc=$?
           set -e
-          if [ ! 0 -eq $rc ]; then
+          if [ 0 -eq $rc ]; then
             TAG=$tag DOCKER_REGISTRY=$DOCKER_REGISTRY make release-docker-images
           fi
         '''.stripIndent())
@@ -309,7 +309,7 @@ pipeline {
           docker images | grep oplog-gateway | grep $tag
           rc=$?
           set -e
-          if [ ! 0 -eq $rc ]; then
+          if [ 0 -eq $rc ]; then
             TAG=$tag DOCKER_REGISTRY=$DOCKER_REGISTRY make release-docker-images
           fi
         '''.stripIndent())
