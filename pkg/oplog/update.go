@@ -19,7 +19,7 @@ func (h *Handler) UpdateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 		var val struct {
 			Infos []interface{}
 		}
-		if err := json.Unmarshal([]byte(*h.NewValue), &val); err == nil {
+		if err := json.Unmarshal([]byte(*h.NewValue), &val); err == nil && len(val.Infos) > 0 {
 			value := fmt.Sprintf(`{"Infos":{"Count":%v}}`, len(val.Infos))
 			h.NewValue = &value
 		}
