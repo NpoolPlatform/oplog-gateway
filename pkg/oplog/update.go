@@ -14,10 +14,13 @@ func (h *Handler) UpdateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 		return nil, fmt.Errorf("invalid entid")
 	}
 
-	if h.NewValue != nil {
-		var arr []interface{}
-		if err := json.Unmarshal([]byte(*h.NewValue), &arr); err == nil {
-			value := fmt.Sprintf(`{"Infos":{"Count":%v}}`, len(arr))
+	const maxNewValueLen = 256
+	if h.NewValue != nil && len(*h.NewValue) > maxNewValueLen {
+		var val struct {
+			Infos []interface{}
+		}
+		if err := json.Unmarshal([]byte(*h.NewValue), &val); err == nil {
+			value := fmt.Sprintf(`{"Infos":{"Count":%v}}`, len(val.Infos))
 			h.NewValue = &value
 		}
 	}
