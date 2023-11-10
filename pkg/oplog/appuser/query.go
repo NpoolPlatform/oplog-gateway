@@ -4,9 +4,11 @@ package appuser
 import (
 	"context"
 	"fmt"
+
 	// "encoding/json"
 	"path/filepath"
 	"strings"
+
 	// appmwcli "github.com/NpoolPlatform/appuser-middleware/pkg/client/app"
 	// npool "github.com/NpoolPlatform/message/npool/appuser/gw/v1/app"
 	basetypes "github.com/NpoolPlatform/message/npool/basetypes/v1"
@@ -15,7 +17,7 @@ import (
 func GetEntity(ctx context.Context, path, args string) (interface{}, error) {
 	strs := strings.Split("path", "/")
 	if len(strs) < 4 {
-		return nil, fmt.Errorf("invalid path")
+		return nil, fmt.Errorf("invalid path1")
 	}
 	if !strings.HasPrefix(strs[3], "update") {
 		return nil, nil

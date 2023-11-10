@@ -14,14 +14,15 @@ import (
 func (s *Server) UpdateOpLog(ctx context.Context, in *npool.UpdateOpLogRequest) (*npool.UpdateOpLogResponse, error) {
 	handler, err := oplog1.NewHandler(
 		ctx,
-		oplog1.WithEntID(ctx, in.EntID),
-		oplog1.WithNewValue(ctx, in.NewValue),
-		oplog1.WithResult(ctx, in.Result),
-		oplog1.WithFailReason(ctx, in.FailReason),
-		oplog1.WithStatusCode(ctx, in.StatusCode),
-		oplog1.WithReqHeaders(ctx, in.ReqHeaders),
-		oplog1.WithRespHeaders(ctx, in.RespHeaders),
-		oplog1.WithElapsedMillisecs(ctx, in.GetElapsedMillisecs()),
+		oplog1.WithID(&in.ID, true),
+		oplog1.WithEntID(&in.EntID, true),
+		oplog1.WithNewValue(in.NewValue),
+		oplog1.WithResult(in.Result),
+		oplog1.WithFailReason(in.FailReason),
+		oplog1.WithStatusCode(in.StatusCode),
+		oplog1.WithReqHeaders(in.ReqHeaders),
+		oplog1.WithRespHeaders(in.RespHeaders),
+		oplog1.WithElapsedMillisecs(in.GetElapsedMillisecs()),
 	)
 	if err != nil {
 		logger.Sugar().Errorw(
