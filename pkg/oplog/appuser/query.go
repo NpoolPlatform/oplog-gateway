@@ -17,7 +17,7 @@ import (
 func GetEntity(ctx context.Context, path, args string) (interface{}, error) {
 	strs := strings.Split("path", "/")
 	if len(strs) < 4 {
-		return nil, fmt.Errorf("invalid path1")
+		return nil, fmt.Errorf("invalid path")
 	}
 	if !strings.HasPrefix(strs[3], "update") {
 		return nil, nil
