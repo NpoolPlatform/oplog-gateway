@@ -15,8 +15,8 @@ import (
 func (s *Server) GetOpLogs(ctx context.Context, in *npool.GetOpLogsRequest) (*npool.GetOpLogsResponse, error) {
 	handler, err := oplog1.NewHandler(
 		ctx,
-		oplog1.WithAppID(in.GetAppID()),
-		oplog1.WithUserID(&in.UserID),
+		oplog1.WithAppID(in.GetAppID(), true),
+		oplog1.WithUserID(&in.UserID, true),
 		oplog1.WithOffset(in.GetOffset()),
 		oplog1.WithLimit(in.GetLimit()),
 	)
@@ -48,7 +48,7 @@ func (s *Server) GetOpLogs(ctx context.Context, in *npool.GetOpLogsRequest) (*np
 func (s *Server) GetAppOpLogs(ctx context.Context, in *npool.GetAppOpLogsRequest) (*npool.GetAppOpLogsResponse, error) {
 	handler, err := oplog1.NewHandler(
 		ctx,
-		oplog1.WithAppID(in.GetAppID()),
+		oplog1.WithAppID(in.GetAppID(), true),
 		oplog1.WithOffset(in.GetOffset()),
 		oplog1.WithLimit(in.GetLimit()),
 	)
@@ -80,7 +80,7 @@ func (s *Server) GetAppOpLogs(ctx context.Context, in *npool.GetAppOpLogsRequest
 func (s *Server) GetNAppOpLogs(ctx context.Context, in *npool.GetNAppOpLogsRequest) (*npool.GetNAppOpLogsResponse, error) {
 	handler, err := oplog1.NewHandler(
 		ctx,
-		oplog1.WithAppID(in.GetTargetAppID()),
+		oplog1.WithAppID(in.GetTargetAppID(), true),
 		oplog1.WithOffset(in.GetOffset()),
 		oplog1.WithLimit(in.GetLimit()),
 	)
