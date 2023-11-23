@@ -14,12 +14,12 @@ import (
 func (s *Server) CreateOpLog(ctx context.Context, in *npool.CreateOpLogRequest) (*npool.CreateOpLogResponse, error) {
 	handler, err := oplog1.NewHandler(
 		ctx,
-		oplog1.WithAppID(ctx, in.GetAppID()),
-		oplog1.WithUserID(ctx, in.UserID),
-		oplog1.WithPath(ctx, in.GetPath()),
-		oplog1.WithMethod(ctx, in.GetMethod()),
-		oplog1.WithArguments(ctx, in.GetArguments()),
-		oplog1.WithReqHeaders(ctx, &in.ReqHeaders),
+		oplog1.WithAppID(in.GetAppID(), true),
+		oplog1.WithUserID(in.UserID, true),
+		oplog1.WithPath(in.GetPath(), true),
+		oplog1.WithMethod(in.GetMethod(), true),
+		oplog1.WithArguments(in.GetArguments(), false),
+		oplog1.WithReqHeaders(&in.ReqHeaders, false),
 	)
 	if err != nil {
 		logger.Sugar().Errorw(

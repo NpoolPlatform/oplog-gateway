@@ -13,6 +13,7 @@ import (
 )
 
 type Handler struct {
+	ID               *uint32
 	EntID            *string
 	AppID            string
 	UserID           *string
@@ -40,26 +41,49 @@ func NewHandler(ctx context.Context, options ...func(context.Context, *Handler) 
 	return handler, nil
 }
 
-func WithEntID(ctx context.Context, id string) func(context.Context, *Handler) error {
+func WithID(id *uint32, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
-		if _, err := uuid.Parse(id); err != nil {
-			return err
+		if id == nil {
+			if must {
+				return fmt.Errorf("invalid id")
+			}
+			return nil
 		}
-		h.EntID = &id
+		h.ID = id
 		return nil
 	}
 }
 
-func WithAppID(ctx context.Context, id string) func(context.Context, *Handler) error {
+func WithEntID(id *string, must bool) func(context.Context, *Handler) error {
+	return func(ctx context.Context, h *Handler) error {
+		if id == nil {
+			if must {
+				return fmt.Errorf("invalid entid")
+			}
+			return nil
+		}
+		_, err := uuid.Parse(*id)
+		if err != nil {
+			return err
+		}
+		h.EntID = id
+		return nil
+	}
+}
+
+func WithAppID(id string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		h.AppID = id
 		return nil
 	}
 }
 
-func WithUserID(ctx context.Context, id *string) func(context.Context, *Handler) error {
+func WithUserID(id *string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		if id == nil {
+			if must {
+				return fmt.Errorf("invalid userid")
+			}
 			return nil
 		}
 		if _, err := uuid.Parse(*id); err != nil {
@@ -70,7 +94,7 @@ func WithUserID(ctx context.Context, id *string) func(context.Context, *Handler)
 	}
 }
 
-func WithPath(ctx context.Context, path string) func(context.Context, *Handler) error {
+func WithPath(path string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		if !strings.HasPrefix(path, "/api/") {
 			return fmt.Errorf("invalid path %v", path)
@@ -80,7 +104,7 @@ func WithPath(ctx context.Context, path string) func(context.Context, *Handler) 
 	}
 }
 
-func WithMethod(ctx context.Context, method basetypes.HTTPMethod) func(context.Context, *Handler) error {
+func WithMethod(method basetypes.HTTPMethod, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		switch method {
 		case basetypes.HTTPMethod_GET:
@@ -100,7 +124,7 @@ func WithMethod(ctx context.Context, method basetypes.HTTPMethod) func(context.C
 	}
 }
 
-func WithArguments(ctx context.Context, args string) func(context.Context, *Handler) error {
+func WithArguments(args string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		var _args map[string]interface{}
 		if err := json.Unmarshal([]byte(args), &_args); err != nil {
@@ -111,9 +135,12 @@ func WithArguments(ctx context.Context, args string) func(context.Context, *Hand
 	}
 }
 
-func WithNewValue(ctx context.Context, value *string) func(context.Context, *Handler) error {
+func WithNewValue(value *string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		if value == nil {
+			if must {
+				return fmt.Errorf("invalid newvalue")
+			}
 			return nil
 		}
 		var _args map[string]interface{}
@@ -125,9 +152,12 @@ func WithNewValue(ctx context.Context, value *string) func(context.Context, *Han
 	}
 }
 
-func WithResult(ctx context.Context, result *basetypes.Result) func(context.Context, *Handler) error {
+func WithResult(result *basetypes.Result, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		if result == nil {
+			if must {
+				return fmt.Errorf("invalid result")
+			}
 			return nil
 		}
 		switch *result {
@@ -141,49 +171,73 @@ func WithResult(ctx context.Context, result *basetypes.Result) func(context.Cont
 	}
 }
 
-func WithFailReason(ctx context.Context, reason *string) func(context.Context, *Handler) error {
+func WithFailReason(reason *string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if reason == nil {
+			if must {
+				return fmt.Errorf("invalid failreason")
+			}
+			return nil
+		}
 		h.FailReason = reason
 		return nil
 	}
 }
 
-func WithStatusCode(ctx context.Context, statusCode *int32) func(context.Context, *Handler) error {
+func WithStatusCode(statusCode *int32, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if statusCode == nil {
+			if must {
+				return fmt.Errorf("invalid statuscode")
+			}
+			return nil
+		}
 		h.StatusCode = statusCode
 		return nil
 	}
 }
 
-func WithReqHeaders(ctx context.Context, headers *string) func(context.Context, *Handler) error {
+func WithReqHeaders(headers *string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if headers == nil {
+			if must {
+				return fmt.Errorf("invalid reqheaders")
+			}
+			return nil
+		}
 		h.ReqHeaders = headers
 		return nil
 	}
 }
 
-func WithRespHeaders(ctx context.Context, headers *string) func(context.Context, *Handler) error {
+func WithRespHeaders(headers *string, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
+		if headers == nil {
+			if must {
+				return fmt.Errorf("invalid respheaders")
+			}
+			return nil
+		}
 		h.RespHeaders = headers
 		return nil
 	}
 }
 
-func WithElapsedMillisecs(ctx context.Context, secs uint32) func(context.Context, *Handler) error {
+func WithElapsedMillisecs(secs uint32, must bool) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		h.ElapsedMillisecs = &secs
 		return nil
 	}
 }
 
-func WithOffset(ctx context.Context, offset int32) func(context.Context, *Handler) error {
+func WithOffset(offset int32) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		h.Offset = offset
 		return nil
 	}
 }
 
-func WithLimit(ctx context.Context, limit int32) func(context.Context, *Handler) error {
+func WithLimit(limit int32) func(context.Context, *Handler) error {
 	return func(ctx context.Context, h *Handler) error {
 		if limit == 0 {
 			limit = constant.DefaultRowLimit
