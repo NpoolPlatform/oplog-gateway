@@ -15,7 +15,7 @@ func (s *Server) CreateOpLog(ctx context.Context, in *npool.CreateOpLogRequest) 
 	handler, err := oplog1.NewHandler(
 		ctx,
 		oplog1.WithAppID(in.GetAppID(), true),
-		oplog1.WithUserID(in.UserID, true),
+		oplog1.WithUserID(in.UserID, false),
 		oplog1.WithPath(in.GetPath(), true),
 		oplog1.WithMethod(in.GetMethod(), true),
 		oplog1.WithArguments(in.GetArguments(), false),
