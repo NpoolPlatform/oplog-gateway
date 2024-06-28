@@ -3,14 +3,14 @@ package oplog
 import (
 	"context"
 
-	oplogmwpb "github.com/NpoolPlatform/message/npool/oplog/mw/v1/oplog"
-	oplogmwcli "github.com/NpoolPlatform/oplog-middleware/pkg/client/oplog"
-
-	"github.com/NpoolPlatform/go-service-framework/pkg/logger"
+	logger "github.com/NpoolPlatform/go-service-framework/pkg/logger"
 	"github.com/NpoolPlatform/go-service-framework/pkg/pubsub"
+	wlog "github.com/NpoolPlatform/go-service-framework/pkg/wlog"
 	"github.com/NpoolPlatform/libent-cruder/pkg/cruder"
 	basetypes "github.com/NpoolPlatform/message/npool/basetypes/v1"
+	oplogmwpb "github.com/NpoolPlatform/message/npool/oplog/mw/v1/oplog"
 	appuser "github.com/NpoolPlatform/oplog-gateway/pkg/oplog/appuser"
+	oplogmwcli "github.com/NpoolPlatform/oplog-middleware/pkg/client/oplog"
 )
 
 type queryHandler struct {
@@ -53,7 +53,7 @@ func (h *queryHandler) formalizeHumanReadable() error {
 
 		prefix, err := getPathPrefix(info.Path)
 		if err != nil {
-			return err
+			return wlog.WrapError(err)
 		}
 		var str string
 
@@ -71,7 +71,7 @@ func (h *queryHandler) formalizeHumanReadable() error {
 		default:
 		}
 		if err != nil {
-			return err
+			return wlog.WrapError(err)
 		}
 
 		req.HumanReadable = &str
@@ -90,7 +90,7 @@ func (h *Handler) GetOpLogs(ctx context.Context) ([]*oplogmwpb.OpLog, uint32, er
 
 	infos, total, err := oplogmwcli.GetOpLogs(ctx, conds, h.Offset, h.Limit)
 	if err != nil {
-		return nil, 0, err
+		return nil, 0, wlog.WrapError(err)
 	}
 
 	handler := &queryHandler{
@@ -98,7 +98,7 @@ func (h *Handler) GetOpLogs(ctx context.Context) ([]*oplogmwpb.OpLog, uint32, er
 		infos:   infos,
 	}
 	if err := handler.formalizeHumanReadable(); err != nil {
-		return nil, 0, err
+		return nil, 0, wlog.WrapError(err)
 	}
 	handler.updateHumanReadable()
 

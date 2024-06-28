@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	wlog "github.com/NpoolPlatform/go-service-framework/pkg/wlog"
 	oplogmwpb "github.com/NpoolPlatform/message/npool/oplog/mw/v1/oplog"
 	oplogmwcli "github.com/NpoolPlatform/oplog-middleware/pkg/client/oplog"
 
@@ -13,7 +14,7 @@ import (
 func (h *Handler) CreateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 	prefix, err := getPathPrefix(h.Path)
 	if err != nil {
-		return nil, err
+		return nil, wlog.WrapError(err)
 	}
 
 	valAndErr := map[string]interface{}{}
@@ -35,7 +36,7 @@ func (h *Handler) CreateOpLog(ctx context.Context) (*oplogmwpb.OpLog, error) {
 
 	_curVal, err := json.Marshal(valAndErr)
 	if err != nil {
-		return nil, err
+		return nil, wlog.WrapError(err)
 	}
 	curValStr = string(_curVal)
 
